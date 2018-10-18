@@ -3,9 +3,9 @@
 -export([count_to_ten/0]).
 -export([log_message/1]).
 
-count_to_ten() -> count_to_ten_private(10).
-count_to_ten_private(1) -> 1;
-count_to_ten_private(N) -> count_to_ten_private(N - 1).
+count_to_ten() -> count_to_ten_private(1).
+count_to_ten_private(10) -> 10;
+count_to_ten_private(N) -> count_to_ten_private(N + 1).
 
 count_words_in_sentence("") -> 0;
 count_words_in_sentence(Sentence) ->
