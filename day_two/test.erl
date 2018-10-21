@@ -16,5 +16,7 @@ case_test_with_default(Word) ->
     _ -> default
   end.
 
-map(F, [H|T]) -> [F(H) | map(F, T)];
-map(F, []) -> [].
+map(F, []) -> [];
+map(F, L) -> [F(X) || X <- L].
+
+[FunctieDieIetsMetDeDataDoet(Item) || Item <- Data].
