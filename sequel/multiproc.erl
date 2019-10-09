@@ -16,3 +16,11 @@ normal() ->
   after 0 ->
     []
   end.
+
+defensive_receive() ->
+  receive
+    {Priority, Message} when Priority > 10 ->
+      [Message|important()];
+    Unexpected ->
+      io:format("Unexpected message ~p~n", [Unexpected])
+    end.
