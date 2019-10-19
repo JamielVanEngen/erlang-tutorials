@@ -1,6 +1,37 @@
 -module(kitchen).
 -compile(export_all).
 
+start(FoodList) ->
+  spawn(?MODULE, fridge1, [FoodList]).
+
+store(Pid, Food) ->
+  Pid ! {self(), {store, Food}},
+  receive
+    {Pid, Msg} -> Msg
+  end.
+
+take(Pid, Food) ->
+  Pid ! {self(), {take, Food}},
+  receive
+    {Pid, Msg} -> Msg
+  end.
+
+store2(Pid, Food) ->
+  Pid ! {self(), {store, Food}},
+  receive
+    {Pid, Msg} -> Msg
+  after 3000 ->
+    timeout
+  end.
+
+take2(Pid, Food) ->
+  Pid ! {self(), {take, Food}},
+  receive
+    {Pid, Msg} -> Msg
+  after 3000 ->
+    timeout
+  end.
+
 fridge1() ->
   receive
     {From, {store, Food}} ->
@@ -31,33 +62,3 @@ fridge2(FoodList) ->
       ok
   end.
 
-store(Pid, Food) ->
-  Pid ! {self(), {store, Food}},
-  receive
-    {Pid, Msg} -> Msg
-  end.
-
-take(Pid, Food) ->
-  Pid ! {self(), {take, Food}},
-  receive
-    {Pid, Msg} -> Msg
-  end.
-
-start(FoodList) ->
-  spawn(?MODULE, fridge2, [FoodList]).
-
-store2(Pid, Food) ->
-  Pid ! {self(), {store, Food}},
-  receive
-    {Pid, Msg} -> Msg
-  after 3000 ->
-    timeout
-  end.
-
-take2(Pid, Food) ->
-  Pid ! {self(), {take, Food}},
-  receive
-    {Pid, Msg} -> Msg
-  after 3000 ->
-    timeout
-  end.
